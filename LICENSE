@@ -1,0 +1,44 @@
+
+---
+
+### **bayesian_pasa/activations.py**
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class PASA(nn.Module):
+    """Original PASA – stable version with running averages."""
+    def __init__(self, alpha0=1.0, alpha1=0.5, kappa=0.1, tau=5.0, beta=1.0,
+                 lambda1=0.5, mu1=0.0, tau_lin=2.0, eps=1e-6, momentum=0.99,
+                 temperature_init=1.0):
+        super().__init__()
+        # ... (full implementation from your code)
+
+    def forward(self, x, return_weights=False):
+        # ... (full implementation)
+
+class BayesianPASA(nn.Module):
+    """Bayesian PASA with ψ‑function and variational evidence."""
+    def __init__(self, alpha0=1.0, alpha1=0.5, kappa=0.1, tau=5.0, beta=1.0,
+                 lambda1=0.5, mu1=0.0, tau_lin=2.0, lambda3=0.1,
+                 eps=1e-6, momentum=0.99, temperature_init=1.0):
+        super().__init__()
+        # ... (full implementation from your code)
+
+    def psi(self, t):
+        return torch.log1p(t) - t / (1 + t)
+
+    def forward(self, x, return_weights=False):
+        # ... (full implementation)
+
+class Mish(nn.Module):
+    def forward(self, x):
+        return x * torch.tanh(F.softplus(x))
+
+class Swish(nn.Module):
+    def __init__(self, beta=1.0):
+        super().__init__()
+        self.beta = beta
+    def forward(self, x):
+        return x * torch.sigmoid(self.beta * x)
